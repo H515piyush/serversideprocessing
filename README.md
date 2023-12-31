@@ -7,22 +7,29 @@ To design a website to perform mathematical calculations in server side.
 
 ### Step 1:
 
-clone the respitory from github
+First fork the given repository link and then copy your code
 
 ### Step 2:
 
-creat Django admin project
+open visual stuido and create a folder and then clone the copied link using 'git clone [your link ]' and then activate Django.
 
 ### Step 3:
 
-create a new app
+open the folder and then inside the repository folder create myproj folder using 'django-admin
+startproject myproj' command. And then open myproj folder inside the myproj folder we can create
+a app folder called 'myapp' using 'python manage.py startapp [your app name]' command.
 
 ### Step 4:
 
-create python code
+open 'settings.py' inside the myproj folder and make some changes. And then create a folder called
+'templates' and then inside the templates create another folder (your app folder) named 'myapp'
+
 
 ### Step 5:
-create a HTML file of forms
+
+Inside the myapp folder create 2 html files named 'math.html' , 'result.html' and then paste the
+codes that are given below. And then make the changes in 'url.py' and 'views.py'.Save all files and
+then run the code using 'python manage.py runserver [port number]
 
 
 ### Step 6:
@@ -30,110 +37,108 @@ create a HTML file of forms
 Publish the website in the given URL.
 
 ## PROGRAM :
-<html>
-    <head>
-        <title>
-            www.volume.html
-        </title>
-    </head>
-<style>
-    *{
-        box-sizing: border-box;
-         }
-
-    body{
-    background-color;
-    color: black;
-    }
-
-   .container{
-    width: 1080px;
-    height: 350px;
-    margin-top: 100px;
-    margin-left: auto;
-    margin-right: auto;
-    border-radius: 25px;
-    border: 10px solid black;
-    
-    
-    }
-    h1{
-        color: rgb(0, 0, 0);
-        text-align: center;
-    }
-    .calculate{
-        padding-top: 10px;
-        padding-bottom: 10px;
-        padding-left: 10px;
-        padding-right:10px;
-        text-align: center;
-        font-size: 20px;
-        padding-top: 7px;
-        font-family: Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
-    }
-</style>
-    <body>
-        <div class="container">
-        <h1>TO CALCULATE VOLUME</h1>
-        <form method="POST">
-            {% csrf_token %}
-            <div class="calculate"> 
-                Height:<input type="text" name="height" value={{h}}></input><br/>
-            </div>
-            <div class="calculate">
-                Length:<input type="text" name="length" value={{l}}></input><br/>
-            </div>
-            <div class="calculate">
-                Width:<input type="text" name="width" value={{w}}></input><br/>
-            </div>
-            <div class="calculate">
-                <input type="submit" value="Calculate Volume"></input><br/>
-            </div>
-            <div class="calculate">
-                Volume:<input type="text" name="volume" value={{volume}}></input>
-            </div>
-        </form>
-    </div>
-    </body>
-</html>
-
-views.py
+```
+#views.py
 from django.shortcuts import render
-def rectarea(request):
-    context={}
-    context['area'] = "0"
-    context['l'] = "0"
-    context['b'] = "0"
-    if request.method == 'POST':
-        print("POST method is used")
-        l = request.POST.get('length','0')
-        b = request.POST.get('breadth','0')
-        print('request=',request)
-        print('Length=',l)
-        print('Breadth=',b)
-        area = int(l) * int(b)
-        context['area'] = area
-        context['l'] = l
-        context['b'] = b
-        print('Area=',area)
-    return render(request,'myapp/math.html',context)
-
-
-urls.py
-from django.contrib import admin
-from django.urls import path
-from myapp import views
-urlpatterns = [
-    path('admin/', admin.site.urls),
-    path('areaofrectangle/',views.rectarea,name="areaofrectangle"),
-    path('',views.rectarea,name="areaofrectangleroot")
-] 
+from django.template import loader
+from django.shortcuts import render
+def prismarea(request):
+context={}
+context['area'] = "0"
+context['s'] = "0"
+context['b'] = "0"
+if request.method == 'POST':
+print("POST method is used")
+s = request.POST.get('side','0')
+h = request.POST.get('height','0')
+print('request=',request)
+print('side=',s)
+print('height=',h)
+area = 2*int(s) **2+4*int(s)*int(h)
+context['area'] = area
+context['s'] = s
+context['h'] = h
+print('Area=',area)
+return render(request,'myapp/math.html',context)
+#math.html
+<html>
+<head>
+<meta charset='utf-8'>
+<meta http-equiv='X-UA-Compatible' content='IE=edge'>
+<title>Area of Prism</title>
+<meta name='viewport' content='width=device-width, initial-scale=1'>
+<style type="text/css">
+body
+{
+background-color:cyan;
+}
+.edge {
+width: 1080px;
+margin-left: auto;
+margin-right: auto;
+padding-top: 200px;
+padding-left: 300px;
+}
+.box {
+display:block;
+border: Thick dashed lime;
+width: 500px;
+min-height: 300px;
+font-size: 20px;
+background-color: purple;
+}
+.formelt{
+color: Red;
+text-align: center;
+margin-top: 5px;
+margin-bottom: 5px;
+}
+h1
+{
+OUTPUT:
+color: yellow;
+text-align: center;
+padding-top: 20px;
+}
+</style>
+</head>
+<body>
+<div class="edge">
+<div class="box">
+<h1>Area of a Prism</h1>
+<form method="POST">
+{% csrf_token %}
+<div class="formelt">
+Side : <input type="text" name="side" value="{{s}}"></input>(in m)<br/>
+</div>
+<div class="formelt">
+Heigth : <input type="text" name="height" value="{{h}}"></input>(in m)<br/>
+</div>
+<div class="formelt">
+<input type="submit" value="Calculate"></input><br/>
+</div>
+<div class="formelt">
+Area : <input type="text" name="area" value="{{area}}"></input>m<sup>2</sup><br/>
+</div>
+</form>
+</div>
+</div>
+</body>
+</html>
+#result.html
+<!DOCTYPE html>
+<html>
+<head>
+<title>SEC demo on server processing result</title>
+</head>
+<body>
+The result is {{result}}
+</body>
+</html>
+```
 ## OUTPUT:
 
-### Home Page:
-
-![Screenshot 2023-12-30 100957](https://github.com/H515piyush/serversideprocessing/assets/147472999/815af93a-a2ef-4a01-b0e1-83e4baa32403)
+![piyush](https://github.com/H515piyush/serversideprocessing/assets/147472999/61b56470-6efe-40c8-9b16-56ab4c868000)
 
 ## Result:
-the design is completed and executed
-
+The program area of prism is excuted sucessfully
